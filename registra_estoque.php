@@ -100,13 +100,14 @@ class regEstoque
 
         $this->descricao = $_POST['f_descricao'];
         $this->valor = $_POST['f_valor'];
-
-        $this->stmt->execute(array(
-            ':n_descricao' => $this->descricao,
-            ':n_titulo' => $this->titulo,
-            ':n_valor' => doubleval($this->valor),
-            ':n_dir' => $this->path
-        ));
+    
+            $this->stmt->execute(array(
+                ':n_descricao' => $this->descricao,
+                ':n_titulo' => $this->titulo,
+                ':n_valor' => doubleval($this->valor),
+                ':n_dir' => $this->path
+            ));
+        
         } else
         {
             echo "<strong>Por favor verifique os campos!</strong>";
@@ -155,10 +156,7 @@ class regEstoque
 
                         if (isset($_GET['id']) and $_GET['acao'] == 'editar') 
                         {
-                            if (!isset($_FILES['f_produto'])) 
-                            {
-                                $this->Insert_update("UPDATE produtos SET descricao = :n_descricao, titulo = :n_titulo, valor = :n_valor, dir = ".self::returnData('dir')." WHERE id = ".$_GET['id']);   
-                            }
+                                $this->Insert_update("UPDATE produtos SET descricao = :n_descricao, titulo = :n_titulo, valor = :n_valor, dir = :n_dir WHERE id = ".$_GET['id']);   
                         } else 
                         {
                             $this->Insert_update("INSERT INTO produtos (descricao, titulo, valor, dir) values (:n_descricao, :n_titulo, :n_valor, :n_dir)");
