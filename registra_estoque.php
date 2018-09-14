@@ -153,13 +153,16 @@ class regEstoque
                         $this->name = str_replace(" ", "_", $this->file_array[$i]['name']);
                         $this->path = $dir.DIRECTORY_SEPARATOR.$this->name;
 
-                        if (isset($_GET['id']) and $_GET['acao'] == 'editar')
+                        if (isset($_GET['id']) and $_GET['acao'] == 'editar') 
                         {
-                            $this->Insert_update("UPDATE produtos SET descricao = :n_descricao, titulo = :n_titulo, valor = :n_valor, dir = :n_dir WHERE id = ".$_GET['id']);                                
+                            if (!isset($_FILES['f_produto'])) 
+                            {
+                                $this->Insert_update("UPDATE produtos SET descricao = :n_descricao, titulo = :n_titulo, valor = :n_valor, dir = ".self::returnData('dir')." WHERE id = ".$_GET['id']);   
+                            }
                         } else 
                         {
                             $this->Insert_update("INSERT INTO produtos (descricao, titulo, valor, dir) values (:n_descricao, :n_titulo, :n_valor, :n_dir)");
-                        }                        
+                        }
 
                         move_uploaded_file($this->file_array[$i]['tmp_name'], $this->path);
                         echo ($this->file_array[$i]['name']." - <strong>foi enviado com sucesso!</strong>");
